@@ -2,21 +2,30 @@
 <html>
 
 <head>
-    <title>title pending</title>
+    <title>test</title>
     <link rel='stylesheet' href='main.css'>
 </head>
 
 
 <body>
+    <!-- move these wherever you want -->
+    <p id="keyoutput"></p>
+    <textarea id="keyinput"></textarea>
+
+
+
     <div id='parent'>
         <video id="me"></video>
-        <video id="friend"></video>
     </div>
 
     <!--  -->
-
-    <button onclick="genhostkey()">Create Host Key</button> can you see this ? testing testing 123 Yes i can.
-    <p id="hostkey"></p>
+    <div id='ui'>
+        <button onclick="genhostkey()">Create Host Key</button>
+        <p id="hostkey"></p>
+        <div id='temp'>
+            <video id="friend"></video>
+        </div>
+    </div>
 
     <script src="/main.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>

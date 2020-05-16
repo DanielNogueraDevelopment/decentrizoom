@@ -58,3 +58,9 @@ body {
 #friendloader {
     display: none;
 }
+
+.btn {
+    padding: 1em;
+}
+
+textarea {}

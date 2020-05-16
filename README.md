@@ -1,0 +1,2 @@
+# decentrizoom
+Decentrilized zoom

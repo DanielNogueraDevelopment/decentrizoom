@@ -4,7 +4,6 @@ var connection = new RTCPeerConnection({ iceServers: [myurl] })
 var mycam = document.getElementById("me");
 var theircam = document.getElementById("friend");
 
-
 connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
 }
@@ -20,21 +19,25 @@ var UserMedia = navigator.getUserMedia({ video: true, audio: false }, function(s
 
 //generate the host key.
 function genhostkey() {
-    UserMedia.then(function() {
-        connection.createOffer()
-
-    }).then(function(hostdescription) {
-        connection.setLocalDescription(hostdescription)
+    connection.createOffer().then(function(hostdescription) {
+        connection.setLocalDescription(hostdescription);
     })
-
     connection.onicecandidate = function(event) {
 
-        console.log(connection.localDescription.sdp)
 
+        var hostkey = LZString.compress(connection.localDescription.sdp);
+        console.log(hostkey);
 
 
 
     }
+}
 
+function connecttohost(key) {
+    var hostdesc = new RTCSessionDescription({ type: "offer", sdp: LZString.decompress(key) });
+    connection.setRemoteDescription(hostdesc).then(function() {
+        connection.createAnswer()
+    }).then(function(mygivendesc) {
 
+    })
 }

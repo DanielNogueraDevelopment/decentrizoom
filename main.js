@@ -38,6 +38,12 @@ function connecttohost(key) {
     connection.setRemoteDescription(hostdesc).then(function() {
         connection.createAnswer()
     }).then(function(mygivendesc) {
-
+        connection.setLocalDescription(mygivendesc)
     })
+
+    connection.onicecandidate = function(event) {
+        return LZString(connection.localDescription.sdp)
+    }
 }
+
+function

@@ -11,10 +11,17 @@ body {
     align-items: center;
 }
 
-#me {
+#parent {
     position: relative;
 }
 
 #friend {
     position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
+    border: 1px solid #000;
+    /* temporary */
+    width: 200px;
+    height: 200px;
 }

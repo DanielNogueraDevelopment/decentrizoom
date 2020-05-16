@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla&family=Rubik&display=swap');
 * {
     box-sizing: border-box
 }
@@ -51,5 +52,9 @@ body {
 }
 
 #copier {
+    display: none;
+}
+
+#friendloader {
     display: none;
 }

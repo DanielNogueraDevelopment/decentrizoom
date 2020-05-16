@@ -2,7 +2,7 @@ var myurl = { urls: "stun:stun.l.google.com:19302" }
 
 var connection = new RTCPeerConnection({ iceServers: [myurl] })
 var mycam = document.getElementById("me");
-var theircam = document.getElementById("friend");
+var theircam = document.getElementById("client-feed");
 var keyoutput = document.getElementById("keyoutput");
 connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
@@ -30,13 +30,14 @@ function genhostkey() {
         var hostkey = LZString.compressToUTF16(connection.localDescription.sdp);
         keyoutput.value = hostkey;
         document.getElementById("copier").style.display = "inherit";
-        copy()
+        copy();
 
 
 
     }
-    document.getElementById("hostgenerator").innerHTML = "Load Friend Key";
-    document.getElementById("hostgenerator").removeEventListener("click", genhostkey)
+    document.getElementById("hostgenerator").style.display = "none";
+    document.getElementById("friendloader").style.display = "inherit";
+
 
 
 }

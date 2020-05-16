@@ -1,6 +1,7 @@
 var myurl = { urls: "stun:stun.l.google.com:19302" }
 
-var connection = new RTCPeerConnection({ iceServers: [myurl] })
+var connection = new RTCPeerConnection({ iceServers: [myurl] });
+var chatconnection = new RTCPeerConnection({ iceServers: [myurl] })
 var mycam = document.getElementById("me");
 var theircam = document.getElementById("client-feed");
 var keyoutput = document.getElementById("keyoutput");
@@ -8,15 +9,20 @@ connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
     theircam.play();
 }
+var UserMedia;
 
-var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
-    mycam.srcObject = stream;
-    mycam.muted = true;
-    mycam.play();
-    connection.addStream(stream);
-}, function(err) {
-    console.log(err)
-});
+function loadMedia() {
+    var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+        mycam.srcObject = stream;
+        mycam.muted = true;
+        mycam.play();
+        connection.addStream(stream);
+    }, function(err) {
+        console.log(err)
+    });
+}
+loadMedia();
+
 
 
 //generate the host key.
@@ -29,10 +35,8 @@ function genhostkey() {
 
         var hostkey = LZString.compressToUTF16(connection.localDescription.sdp);
         keyoutput.value = hostkey;
-        document.getElementById("copier").style.display = "inherit";
+
         copy();
-
-
 
     }
     document.getElementById("hostgenerator").style.display = "none";
@@ -66,12 +70,8 @@ function adduser(friendkey) {
 }
 
 function copy() {
-
-    var copyText = document.getElementById("keyoutput");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
+    keyoutput.select();
+    keyoutput.setSelectionRange(0, 99999);
     document.execCommand("copy");
-
-
-
+    keyoutput.value = "";
 }

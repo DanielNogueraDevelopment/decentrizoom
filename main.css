@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box
+}
+
 html,
 body {
     box-sizing: border-box;
@@ -17,14 +21,35 @@ body {
     align-items: center;
 }
 
-#parent #me {
-    height: 100vh;
+#me {
+    max-width: 100%;
 }
 
-#ui {
+#client-feed {
+    border: 5px solid #000000;
+    width: 100%;
+    height: 100%;
+}
+
+#interface,
+#host-feed {
     position: absolute;
-    bottom: 0;
+    width: 300px;
+    margin: 1em;
+}
+
+#interface {
+    top: 0;
     right: 0;
     border: 1px solid #000;
-    /* temporary */
+    border-radius: 5px;
+}
+
+#host-feed {
+    bottom: 0;
+    right: 0;
+}
+
+#copier {
+    display: none;
 }

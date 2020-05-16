@@ -8,28 +8,33 @@
 
 
 <body>
-    <!-- move these wherever you want -->
-    <p id="keyoutput"></p>
-    <textarea id="keyinput"></textarea>
-
-
-
-    <div id='parent'>
-        <video id="me"></video>
+    <div id="parent">
+        <video id="client-feed"></video>
     </div>
 
     <!--  -->
-    <div id='ui'>
-        <button onclick="genhostkey()">Create Host Key</button>
+    <div id='interface'>
+        <button id="hostgenerator" onclick="genhostkey()">Create Host Key</button>
+        <button id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</button>
+        <button id="copier" onclick="copy()">Copy Key</button>
+        <textarea id="keyoutput"></textarea>
+        <button id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</button>
         <p id="hostkey"></p>
-        <div id='temp'>
-            <video id="friend"></video>
+    </div>
+
+
+
+    <div id="host-feed">
+        <div id="temp">
+            <video id="me"></video>
         </div>
     </div>
 
     <script src="/main.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="Lz-string.js"></script>
+
+
 </body>
 
 </html>

@@ -15,15 +15,15 @@ var myurl = { urls: "stun:stun.l.google.com:19302" }
 var connection = new RTCPeerConnection({ iceServers: [myurl] });
 var chatconnection = connection.createDataChannel("chat");
 
-chatconnection.onopen = function () {
+chatconnection.onopen = function() {
     chatadd("Connection established, this is the chat!");
 }
-chatconnection.onmessage = function (event) {
+chatconnection.onmessage = function(event) {
     console.log("Got a chat message here! ")
     chatadd(event.data);
 }
 
-chat_input.addEventListener("keydown", function (event) {
+chat_input.addEventListener("keydown", function(event) {
     if (event.keyCode == 13) {
         var message = chat_input.value;
         chatconnection.send(message);
@@ -32,13 +32,13 @@ chat_input.addEventListener("keydown", function (event) {
     }
 });
 
-connection.onaddstream = function (event) {
+connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
     theircam.play();
     theirStream = event.stream;
 }
 
-connection.ondatachannel = function (event) {
+connection.ondatachannel = function(event) {
     chatconnection = event.channel;
 }
 
@@ -52,7 +52,7 @@ function chatadd(text, isme) {
     }
     chat.innerHTML = chat.innerHTML + "<br>" + text;
     chat.scrollTop = chat.scrollHeight;
-    setTimeout(function () { chat_input.value = ""; }, 50);
+    setTimeout(function() { chat_input.value = ""; }, 50);
 }
 
 function hidekeytools() {
@@ -60,29 +60,27 @@ function hidekeytools() {
     [...tools].map(tool => tool.style.display = "none");
 }
 
-
-
 function loadMedia(iswebcam) {
     host_feed.style.display = 'inherit';
     if (iswebcam) {
-        var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function (stream) {
+        var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
             myStream = stream;
             mycam.srcObject = stream;
             mycam.muted = true;
             mycam.play();
             connection.addStream(stream);
-        }, function (err) {
+        }, function(err) {
             console.log(err)
         });
     } else {
-        var UserMedia = navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then(function (stream) {
+        var UserMedia = navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then(function(stream) {
             mycam.srcObject = stream;
             mycam.muted = true;
             mycam.play();
             connection.addStream(stream);
         });
     }
-    hideMediaSelectors()
+    hideMediaSelectors();
 }
 
 function hideMediaSelectors() {
@@ -92,12 +90,15 @@ function hideMediaSelectors() {
 }
 
 function toggleChat() {
+
+
     if (chat.style.display == "block") {
         chat.style.display = "none";
         chat_input.style.display = "none";
         document.getElementById("chatLabel").style.display = "none";
         document.getElementById("chat-toggler").innerHTML = "+";
     } else {
+
         chat.style.display = "block";
         chat_input.style.display = "inherit";
         document.getElementById("chatLabel").style.display = "inherit";
@@ -107,10 +108,10 @@ function toggleChat() {
 
 //generate the host key.
 function genhostkey() {
-    connection.createOffer().then(function (hostdesc) {
+    connection.createOffer().then(function(hostdesc) {
         connection.setLocalDescription(hostdesc)
     })
-    connection.onicecandidate = function (event) {
+    connection.onicecandidate = function(event) {
         var hostkey = LZString.compressToUTF16(connection.localDescription.sdp);
         keyoutput.value = hostkey;
 
@@ -120,21 +121,23 @@ function genhostkey() {
     document.getElementById("hostgenerator").style.display = "none";
     document.getElementById("friendloader").style.display = "inline-block";
     document.querySelector('#loadhostkey').style.display = "none";
+
+    displayNotification('Host key copied to clipboard! Share this key and wait for a key from your friend.', 'ok');
 }
 
 function connecttohost(key) {
     var hostdesc = new RTCSessionDescription({ type: "offer", sdp: LZString.decompressFromUTF16(key) });
 
-    connection.setRemoteDescription(hostdesc).then(function () {
+    connection.setRemoteDescription(hostdesc).then(function() {
         connection.createAnswer();
-    }).then(function (mygivendesc) {
+    }).then(function(mygivendesc) {
         connection.setLocalDescription(mygivendesc);
     })
 
-    connection.onicecandidate = function (event) {
+    connection.onicecandidate = function(event) {
         keyoutput.value = LZString.compressToUTF16(connection.localDescription.sdp);
         document.getElementById("keyoutput").style.display = "inherit";
-        
+
         copy();
         setTimeout(hidekeytools, 1000);
         hideModal();
@@ -161,11 +164,18 @@ function copy() {
 var recorder;
 var recording = false;
 var record = [];
+var recordtype;
+
 function toggleRecording() {
     var options = { mimeType: 'video/webm;codecs=vp9' };
     if (recording) {
         recorder.stop();
+        document.getElementById("record").innerHTML = "Record";
+        downloadData();
+        recording = false;
+
     } else {
+        document.getElementById("record").innerHTML = "Recording..."
         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
             console.error(`${options.mimeType} is not Supported`);
             errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
@@ -181,20 +191,22 @@ function toggleRecording() {
                 }
             }
         }
+        recordtype = options.mimeType;
         recorder = new MediaRecorder(theirStream, options);
-        recorder.ondataavailable = function (event) {
+        recorder.ondataavailable = function(event) {
             if (event.data && event.data.size > 0) {
                 record.push(event.data);
             }
         }
-        recorder.start(1000);
+        recorder.start(10);
+        recording = true;
     }
 }
 
 
 
 function downloadData() {
-    const url = window.URL.createObjectURL(new Blob(record, { type: "video/webm" }));
+    const url = window.URL.createObjectURL(new Blob(record, { type: recordtype }));
     const downloader = document.createElement("a");
     downloader.style.display = "none";
     downloader.href = url;
@@ -202,72 +214,3 @@ function downloadData() {
     downloader.click();
     window.URL.revokeObjectURL(url);
 }
-
-let xOffset = 0,
-    yOffset = 0,
-    init_x,
-    init_y,
-    current_x,
-    current_y,
-    lastValidX,
-    lastValidY,
-    active = false;
-
-const dragElementStart = e => {
-    e.preventDefault();
-
-    init_x = e.clientX - xOffset;
-    init_y = e.clientY - yOffset;
-    // console.log(current_x, current_y);
-    if (e.target === mycam) active = true;
-}
-
-const dragging = e => {
-    if (active) {
-        console.log('dragging');
-        e.preventDefault();
-
-        if (e.target === mycam) {
-            current_x = e.clientX - init_x;
-            current_y = e.clientY - init_y;
-            xOffset = current_x;
-            yOffset = current_y;
-            mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
-        }
-    }
-}
-
-const dragElementEnd = e => {
-    const element_style = getComputedStyle(e.target);
-    const width = parseInt(element_style.width.match(/\d+/g)[0]);
-    const height = parseInt(element_style.height.match(/\d+/g)[0]);
-
-    const LEFT_BOUNDS = innerWidth - width;
-    const BOTTOM_BOUNDS = innerHeight - height;
-
-    const element_rect = e.target.getBoundingClientRect();
-    const x = element_rect.x;
-    const y = element_rect.y;
-
-    if (x <= LEFT_BOUNDS && x >= 0 && y <= BOTTOM_BOUNDS && y >= 0) {
-        mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
-        lastValidX = current_x;
-        lastValidY = current_y;
-
-        init_x = current_x;
-        init_y = current_y;
-    } else {
-        mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
-        current_x = lastValidX;
-        current_y = lastValidY;
-        init_x = current_x;
-        init_y = current_y;
-        xOffset = current_x;
-        yOffset = current_y;
-    }
-    active = false;
-}
-
-host_feed.addEventListener('mousedown', dragElementStart, false);
-document.addEventListener('mouseup', dragElementEnd, false);
-document.addEventListener('mousemove', dragging, false);

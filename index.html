@@ -2,84 +2,87 @@
 <html>
 
 <head>
-  <title>Decentrizoom</title>
-  <script src="https://kit.fontawesome.com/ec1745932e.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/main.css" />
+    <title>Decentrizoom</title>
+    <script src="https://kit.fontawesome.com/ec1745932e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 
 <body>
-  <div id='app'>
-    <div id='accent'></div>
-    <div id="parent">
-      <video id="client-feed"></video>
-    </div>
-
-    <div id="chatbox">
-      <div class='group'>
-        <span id="chatLabel">Chat:</span>
-        <button class="btn" id="chat-toggler" onclick="toggleChat()">-</button>
-      </div>
-
-      <h5 id="chat-window"></h5>
-      <textarea wrap="soft" rows="1" id="chatinput"></textarea>
-    </div>
-
-    <div id="host-feed">
-      <video id="me"></video>
-      <div id="controls"></div>
-    </div>
-
-    <div id="modal">
-      <div id="modal-header">
-        <h1 class='title'>Decentrizoom</h1>
-      </div>
-      <div id="modal-body">
-
-        <div id='keyspace'>
-          <button class="btn keytool" id="hostgenerator" onclick="genhostkey()">
-            Generate Host Key
-            <i popup-data="Generate Host Key" class="fas fa-key"></i>
-          </button>
-          <hr>
-
-          <div class="group">
-
-            <button class="fixed btn keytool" id="friendloader"
-              onclick="adduser(document.getElementById('keyoutput').value, true)">
-              <i popup-data="Load Friend Key" class='fas fa-user'></i>
-            </button>
-
-            <button class="fixed btn keytool" id="loadhostkey"
-              onclick="connecttohost(document.getElementById('keyoutput').value)">
-              <i popup-data='Load Host Key' class="fas fa-angle-double-right"></i>
-            </button>
-            <p id="hostkey keytool"></p>
-            <input placeholder='Enter Host or Friend key' type='text' rows="1" class="keytool"
-              id="keyoutput"></textarea>
-          </div>
+    <div id='app'>
+        <div id='accent'></div>
+        <div id="parent">
+            <video id="client-feed"></video>
         </div>
 
-        <button id='webcam' class="fixed btn mediaselector" onclick="loadMedia(true)">
-          <i popup-data="Use webcam" class="fas fa-camera"></i>
+        <div id="chatbox">
+            <div class='group'>
+                <span id="chatLabel" style="color:white;">Chat:</span>
+                <button class="btn" id="chat-toggler" onclick="toggleChat()">-</button>
+            </div>
+
+            <h5 id="chat-window"></h5>
+            <textarea wrap="soft" rows="1" id="chatinput"></textarea>
+        </div>
+
+        <div id="host-feed">
+            <video id="me"></video>
+            <div id="controls"></div>
+        </div>
+
+        <div id="modal">
+            <div id="modal-header">
+                <h1 class='title'>Decentrizoom</h1>
+            </div>
+            <div id="modal-body">
+
+                <div id='keyspace'>
+                    <button class="btn keytool" id="hostgenerator" onclick="genhostkey()">
+            Generate Host Key
+            <i data-popup="Generate Host Key" class="fas fa-key"></i>
+          </button>
+                    <hr>
+
+                    <div class="group">
+
+                        <button class="fixed btn keytool" data-popup="Load Friend Key" id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">
+              <i class='fas fa-user'></i>
+            </button>
+
+                        <button class="fixed btn keytool" data-popup='Load Host Key' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">
+              <i  class="fas fa-angle-double-right"></i>
+            </button>
+                        <p id="hostkey keytool"></p>
+                        <input placeholder='Enter Host or Friend key' type='text' rows="1" class="keytool" id="keyoutput"></textarea>
+                    </div>
+                </div>
+
+                <button data-popup="Use webcam" id='webcam' class="fixed btn mediaselector" onclick="loadMedia(true)">
+          <i  class="fas fa-camera"></i>
         </button>
 
-        <button id='share' class="fixed btn mediaselector" onclick="loadMedia(false)">
-          <i popup-data="Share screen" class="fas fa-desktop"></i>
+                <button data-popup="Share screen" id='share' class="fixed btn mediaselector" onclick="loadMedia(false)">
+          <i class="fas fa-desktop"></i>
         </button>
 
-        <button id='chat' class="fixed btn mediaselector" onclick="hideMediaSelectors()">
-          <i popup-data="Chat Only" class="fas fa-comment-alt"></i>
+                <button data-popup="Chat only" id='chat' class="fixed btn mediaselector" onclick="hideMediaSelectors()">
+          <i class="fas fa-comment-alt"></i>
         </button>
-        <br>
-        <div id='notification'></div>
-      </div>
+                <br>
+                <div id='notification'></div>
+            </div>
+        </div>
+
+
+
+
+        <button class="btn" onclick="toggleRecording()" id="record">Record</button>
     </div>
-  </div>
 
-  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-  <script src="js/Lz-string.js"></script>
-  <script src="js/modal.js"></script>
-  <script src="js/main.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="js/Lz-string.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/drag.js"></script>
 </body>
 
 </html>

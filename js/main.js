@@ -101,6 +101,7 @@ const dragElementStart = e => {
 }
 
 const dragging = e => {
+    console.log('dragging');
     e.preventDefault();
     // if (e.target === mycam) {
     current_x = e.clientX - init_x;

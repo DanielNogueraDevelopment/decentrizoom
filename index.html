@@ -20,7 +20,7 @@
         <button class="btn" id="chat-toggler" onclick="toggleChat()">-</button>
       </div>
 
-      <h5 id="chat"></h5>
+      <h5 id="chat-window"></h5>
       <textarea wrap="soft" rows="1" id="chatinput"></textarea>
     </div>
 
@@ -29,53 +29,52 @@
       <div id="controls"></div>
     </div>
 
-    <div class="rounded modal">
-      <div class="modal-header">
+    <div id="modal">
+      <div id="modal-header">
         <h1 class='title'>Decentrizoom</h1>
       </div>
-      <div class="modal-body">
+      <div id="modal-body">
 
- 
-        <button class="btn keytool" id="hostgenerator" onclick="genhostkey()">
-          <i popup-data="Generate Host Key" class="fas fa-key"></i>
-        </button>
-        <div class='small'>or</div>
-        <div class="group">
-
-          <button class="btn keytool" id="friendloader"
-            onclick="adduser(document.getElementById('keyoutput').value, true)">
-            <i popup-data="Load Friend Key" class='fas fa-user'></i>
+        <div id='keyspace'>
+          <button class="btn keytool" id="hostgenerator" onclick="genhostkey()">
+            Generate Host Key
+            <i popup-data="Generate Host Key" class="fas fa-key"></i>
           </button>
+          <hr>
 
-          <button class="btn keytool" id="loadhostkey"
-            onclick="connecttohost(document.getElementById('keyoutput').value)">
-            <i popup-data='Load Host Key' class="fas fa-angle-double-right"></i>
-          </button>
-          <p id="hostkey keytool"></p>
-          <input placeholder='Enter Host or Friend key' type='text' rows="1" class="keytool" id="keyoutput"></textarea>
+          <div class="group">
+
+            <button class="fixed btn keytool" id="friendloader"
+              onclick="adduser(document.getElementById('keyoutput').value, true)">
+              <i popup-data="Load Friend Key" class='fas fa-user'></i>
+            </button>
+
+            <button class="fixed btn keytool" id="loadhostkey"
+              onclick="connecttohost(document.getElementById('keyoutput').value)">
+              <i popup-data='Load Host Key' class="fas fa-angle-double-right"></i>
+            </button>
+            <p id="hostkey keytool"></p>
+            <input placeholder='Enter Host or Friend key' type='text' rows="1" class="keytool"
+              id="keyoutput"></textarea>
+          </div>
         </div>
 
-        <br>
-        <br>
-
-        <button class="btn mediaselector" onclick="loadMedia(true)">
+        <button id='webcam' class="fixed btn mediaselector" onclick="loadMedia(true)">
           <i popup-data="Use webcam" class="fas fa-camera"></i>
         </button>
 
-        <button class="btn mediaselector" onclick="loadMedia(false)">
+        <button id='share' class="fixed btn mediaselector" onclick="loadMedia(false)">
           <i popup-data="Share screen" class="fas fa-desktop"></i>
         </button>
 
-        <button class="btn mediaselector" onclick="hideMediaSelectors()">
+        <button id='chat' class="fixed btn mediaselector" onclick="hideMediaSelectors()">
           <i popup-data="Chat Only" class="fas fa-comment-alt"></i>
         </button>
-
+        <br>
+        <div id='notification'></div>
       </div>
     </div>
   </div>
-
-  <!--  -->
-
 
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="js/Lz-string.js"></script>

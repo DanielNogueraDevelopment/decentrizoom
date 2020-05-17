@@ -1,12 +1,14 @@
+const parent = document.querySelector('#parent');
+const host_feed = document.querySelector('#host-feed');
+const chatbox = document.querySelector('#chatbox');
+const chat_input = document.querySelector('#chatinput');
+
 var theirStream;
 var mycam = document.getElementById("me");
 var theircam = document.getElementById("client-feed");
 var keyoutput = document.getElementById("keyoutput");
-const parent = document.querySelector('#parent');
-const host_feed = document.querySelector('#host-feed');
-const chatbox = document.querySelector('#chatbox');
-const chat_input = document.querySelector('#chatinput')
-var chat = document.getElementById("chat");
+var chat = document.getElementById("chat-window");
+
 
 var myurl = { urls: "stun:stun.l.google.com:19302" }
 
@@ -49,18 +51,13 @@ function chatadd(text, isme) {
 
     }
     chat.innerHTML = chat.innerHTML + "<br>" + text;
-    document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    chat.scrollTop = chat.scrollHeight;
     setTimeout(function () { chat_input.value = ""; }, 50);
 }
 
 function hidekeytools() {
-    var tools = document.querySelectorAll(".keytool");
-    console.log(tools);
-
-    tools[0].style.display = "none";
-    tools[1].style.display = "none";
-    tools[2].style.display = "none";
-    tools[3].style.display = "none";
+    const tools = document.querySelectorAll(".keytool");
+    [...tools].map(tool => tool.style.display = "none");
 }
 
 
@@ -89,10 +86,8 @@ function loadMedia(iswebcam) {
 }
 
 function hideMediaSelectors() {
-    var selectors = document.querySelectorAll(".mediaselector");
-    selectors[0].style.display = "none";
-    selectors[1].style.display = "none";
-    selectors[2].style.display = "none";
+    const selectors = document.querySelectorAll(".mediaselector");
+    [...selectors].map(selector => selector.style.display = "none");
     chatbox.style.display = 'block';
 }
 
@@ -109,8 +104,6 @@ function toggleChat() {
         document.getElementById("chat-toggler").innerHTML = "-";
     }
 }
-
-
 
 //generate the host key.
 function genhostkey() {
@@ -130,7 +123,6 @@ function genhostkey() {
 }
 
 function connecttohost(key) {
-
     var hostdesc = new RTCSessionDescription({ type: "offer", sdp: LZString.decompressFromUTF16(key) });
 
     connection.setRemoteDescription(hostdesc).then(function () {
@@ -142,8 +134,10 @@ function connecttohost(key) {
     connection.onicecandidate = function (event) {
         keyoutput.value = LZString.compressToUTF16(connection.localDescription.sdp);
         document.getElementById("keyoutput").style.display = "inherit";
+        
         copy();
         setTimeout(hidekeytools, 1000);
+        hideModal();
     }
 }
 

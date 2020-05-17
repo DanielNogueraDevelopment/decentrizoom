@@ -10,6 +10,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     overflow: hidden;
+    user-select: none;
 }
 
 h1,
@@ -47,9 +48,42 @@ input[type='text'] {
     border-right: 100vw solid transparent;
 }
 
+#notification {
+    padding: 1em;
+}
+
+#notification .ok {
+    background-color: #10f354;
+}
+
+#notification .warning {
+    background-color: #df2020;
+}
+
+#modal {
+    position: absolute;
+    background-color: #D8DBE2;
+    padding: 1.5em;
+    border: 5px solid #262730;
+}
+
+#modal-header {
+    font-size: 20pt;
+}
+
+#modal-body {
+    text-align: center;
+    font-family: 'Karla', sans-serif;
+}
+
+#keyspace {
+    display: none;
+}
+
 #host-feed {
     display: none;
 }
+
 #chatbox {
     display: none;
     position: absolute;
@@ -62,10 +96,11 @@ input[type='text'] {
     width: 100%;
 }
 
-#chat {
+#chat-window {
     overflow-y: auto;
     max-height: 40vh;
     border: 1px solid #333;
+    background-color: whitesmoke;
 }
 
 #chatLabel {
@@ -112,6 +147,16 @@ input[type='text'] {
     display: none;
 }
 
+
+.fixed {
+    width: 50px;
+    height: 50px;
+}
+
+.rounded {
+    border-radius: 1em;
+}
+
 .btn {
     position: relative;
     outline: none;
@@ -120,14 +165,10 @@ input[type='text'] {
     font-family: 'Rubik', sans-serif;
     background-color: #5899E2;
     text-align: center;
-    width: 50px;
-    height: 50px;
     font-size: 14pt;
 }
 
-.rounded {
-    border-radius: 1em;
-}
+
 
 .btn:hover {
     cursor: pointer;
@@ -144,19 +185,4 @@ input[type='text'] {
     font-family: sans-serif;
     font-size: 11px;
     text-transform: uppercase;
-}
-
-.modal {
-    position: absolute;
-    background-color: #D8DBE2;
-    padding: 1.5em;
-    border: 5px solid #262730;
-}
-
-.modal-body {
-    text-align: center;
-    font-family: 'Karla', sans-serif;
-}
-.modal-header {
-    font-size: 20pt;
 }

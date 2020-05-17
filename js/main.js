@@ -221,4 +221,4 @@ const dragElementEnd = e => {
 }
     host_feed.addEventListener('mousedown', dragElementStart, false);
     host_feed.addEventListener('mouseup', dragElementEnd, false);
-    host_feed.addEventListener('mousemove', dragging, false);
+    document.addEventListener('mousemove', dragging, false);

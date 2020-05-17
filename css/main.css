@@ -11,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    overflow: hidden;
 }
 
 textarea {
@@ -19,6 +20,10 @@ textarea {
     width: 100%;
     border: 1px solid #d6d6d6;
     overflow-y: hidden;
+}
+
+canvas {
+    border: 1px solid #000000;
 }
 
 #chatbox {}
@@ -64,6 +69,7 @@ textarea {
 #host-feed {
     bottom: 0;
     right: 0;
+    border: 1px solid #444;
 }
 
 #controls {}

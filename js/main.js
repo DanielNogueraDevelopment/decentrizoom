@@ -63,6 +63,7 @@ function hidekeytools() {
 }
 
 
+
 function loadMedia(iswebcam) {
     if (iswebcam) {
         var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
@@ -165,7 +166,7 @@ const dragElementStart = e => {
 
     init_x = e.clientX - xOffset;
     init_y = e.clientY - yOffset;
-    console.log(current_x, current_y);
+    // console.log(current_x, current_y);
     if (e.target === mycam) active = true;
 }
 
@@ -173,7 +174,6 @@ const dragging = e => {
     if (active) {
         console.log('dragging');
         e.preventDefault();
-
 
         if (e.target === mycam) {
             current_x = e.clientX - init_x;
@@ -193,7 +193,6 @@ const dragElementEnd = e => {
     const LEFT_BOUNDS = innerWidth - width;
     const BOTTOM_BOUNDS = innerHeight - height;
 
-
     const element_rect = e.target.getBoundingClientRect();
     const x = element_rect.x;
     const y = element_rect.y;
@@ -201,19 +200,25 @@ const dragElementEnd = e => {
     if (x <= LEFT_BOUNDS && x >= 0 && y <= BOTTOM_BOUNDS && y >= 0) {
         console.log('in bounds');
         mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
-        lastValidX = x
-        lastValidY = y;
-    } else {
-        // mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
-        mycam.style.left = lastValidX + 'px';
-        mycam.style.top = lastValidX + 'px';
-    }
-
+        lastValidX = current_x;
+        lastValidY = current_y;
+        
     init_x = current_x;
     init_y = current_y;
+        console.log(current_x, current_y);
+    } else {
+        console.log('out bounds');
+        mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
+         
+        current_x = lastValidX;
+        current_x = lastValidY;
+        init_x = current_x;
+        init_y = current_y;
+        xOffset = current_x;
+        yOffset = current_y;
+    }
     active = false;
 }
-
-host_feed.addEventListener('mousedown', dragElementStart);
-host_feed.addEventListener('mouseup', dragElementEnd);
-host_feed.addEventListener('mousemove', dragging);
+    host_feed.addEventListener('mousedown', dragElementStart, false);
+    host_feed.addEventListener('mouseup', dragElementEnd, false);
+    host_feed.addEventListener('mousemove', dragging, false);

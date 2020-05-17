@@ -173,9 +173,7 @@ const dragging = e => {
     if (active) {
         console.log('dragging');
         e.preventDefault();
-        const element_style = getComputedStyle(e.target);
-        const width = parseInt(element_style.width.match(/\d+/g)[0]);
-        const height = parseInt(element_style.height.match(/\d+/g)[0]);
+
 
         if (e.target === mycam) {
             current_x = e.clientX - init_x;
@@ -188,8 +186,13 @@ const dragging = e => {
 }
 
 const dragElementEnd = e => {
+    const element_style = getComputedStyle(e.target);
+    const width = parseInt(element_style.width.match(/\d+/g)[0]);
+    const height = parseInt(element_style.height.match(/\d+/g)[0]);
+
     const LEFT_BOUNDS = innerWidth - width;
-    const BOTTOM_BOUNDS = innerHeight - height
+    const BOTTOM_BOUNDS = innerHeight - height;
+
 
     const element_rect = e.target.getBoundingClientRect();
     const x = element_rect.x;
@@ -198,8 +201,8 @@ const dragElementEnd = e => {
     if (x <= LEFT_BOUNDS && x >= 0 && y <= BOTTOM_BOUNDS && y >= 0) {
         console.log('in bounds');
         mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
-        lastValidX = current_x;
-        lastValidY = current_y;
+        lastValidX = x
+        lastValidY = y;
     } else {
         // mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
         mycam.style.left = lastValidX + 'px';

@@ -256,18 +256,14 @@ const dragElementEnd = e => {
     const y = element_rect.y;
 
     if (x <= LEFT_BOUNDS && x >= 0 && y <= BOTTOM_BOUNDS && y >= 0) {
-        console.log('in bounds');
         mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
         lastValidX = current_x;
         lastValidY = current_y;
 
         init_x = current_x;
         init_y = current_y;
-        // host_feed.ad.log(current_x, current_y);
     } else {
-        console.log('out bounds');
         mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
-
         current_x = lastValidX;
         current_y = lastValidY;
         init_x = current_x;
@@ -277,9 +273,6 @@ const dragElementEnd = e => {
     }
     active = false;
 }
-
-
-
 
 host_feed.addEventListener('mousedown', dragElementStart, false);
 document.addEventListener('mouseup', dragElementEnd, false);

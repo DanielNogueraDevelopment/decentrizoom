@@ -9,6 +9,7 @@
 
 <body>
   <div id='app'>
+    <div id='accent'></div>
     <div id="parent">
       <video id="client-feed"></video>
     </div>
@@ -34,17 +35,18 @@
       </div>
       <div class="modal-body">
 
+ 
         <button class="btn keytool" id="hostgenerator" onclick="genhostkey()">
           <i popup-data="Generate Host Key" class="fas fa-key"></i>
         </button>
-
+        <div class='small'>or</div>
         <div class="group">
 
           <button class="btn keytool" id="friendloader"
             onclick="adduser(document.getElementById('keyoutput').value, true)">
             <i popup-data="Load Friend Key" class='fas fa-user'></i>
           </button>
-          
+
           <button class="btn keytool" id="loadhostkey"
             onclick="connecttohost(document.getElementById('keyoutput').value)">
             <i popup-data='Load Host Key' class="fas fa-angle-double-right"></i>
@@ -53,6 +55,8 @@
           <input placeholder='Enter Host or Friend key' type='text' rows="1" class="keytool" id="keyoutput"></textarea>
         </div>
 
+        <br>
+        <br>
 
         <button class="btn mediaselector" onclick="loadMedia(true)">
           <i popup-data="Use webcam" class="fas fa-camera"></i>

@@ -33,6 +33,7 @@ chat_input.addEventListener("keydown", function(event) {
 });
 
 connection.onaddstream = function(event) {
+    console.log('stream add');
     theircam.srcObject = event.stream;
     theircam.play();
     theirStream = event.stream;
@@ -144,11 +145,12 @@ function connecttohost(key) {
     }
 }
 
-function adduser(friendkey) {
+async function adduser(friendkey) {
 
     console.log(LZString.decompressFromUTF16(friendkey));
     if (connection.signalingState == "have-local-offer") {
-        connection.setRemoteDescription(new RTCSessionDescription({ type: "answer", sdp: LZString.decompressFromUTF16(friendkey) }))
+        console.log(LZString.decompressFromUTF16(friendkey));
+        await connection.setRemoteDescription(new RTCSessionDescription({ type: "answer", sdp: LZString.decompressFromUTF16(friendkey) }))
     }
     hidekeytools();
     hideModal();
@@ -202,8 +204,6 @@ function toggleRecording() {
         recording = true;
     }
 }
-
-
 
 function downloadData() {
     const url = window.URL.createObjectURL(new Blob(record, { type: recordtype }));

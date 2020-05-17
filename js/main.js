@@ -1,3 +1,11 @@
+var theirStream;
+var mycam = document.getElementById("me");
+var theircam = document.getElementById("client-feed");
+var keyoutput = document.getElementById("keyoutput");
+const host_feed = document.querySelector('#host-feed');
+const chat_input = document.querySelector('#chatinput')
+var chat = document.getElementById("chat");
+
 var myurl = { urls: "stun:stun.l.google.com:19302" }
 
 var connection = new RTCPeerConnection({ iceServers: [myurl] });
@@ -11,25 +19,24 @@ chatconnection.onmessage = function(event) {
     chatadd(event.data);
 }
 
-
-
-document.getElementById("chatinput").addEventListener("keydown", function(event) {
+chat_input.addEventListener("keydown", function(event) {
     if (event.keyCode == 13) {
-        var message = document.getElementById("chatinput").value;
+        var message = chat_input.value;
         chatconnection.send(message);
         chatadd(message);
-        document.getElementById("chatinput").value = "";
+        chat_input.value = "";
     }
 })
 
-var mycam = document.getElementById("me");
-var theircam = document.getElementById("client-feed");
-var keyoutput = document.getElementById("keyoutput");
-const host_feed = document.querySelector('#host-feed');
-var chat = document.getElementById("chat");
+chat_input.addEventListener('keyup', e => {
+    const cols = chat_input.value.split('\n').length;
+    e.columns = cols + 1;
+})
+
 connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
     theircam.play();
+    theirStream=event.stream;
 }
 
 connection.ondatachannel = function(event) {
@@ -49,7 +56,7 @@ function chatadd(text, isme) {
     }
     chat.innerHTML = chat.innerHTML + "<br>" + text;
     document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
-    setTimeout(function() { document.getElementById("chatinput").value = ""; }, 50);
+    setTimeout(function() { chat_input.value = ""; }, 50);
 }
 
 function hidekeytools() {
@@ -67,6 +74,7 @@ function hidekeytools() {
 function loadMedia(iswebcam) {
     if (iswebcam) {
         var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+            myStream=stream;
             mycam.srcObject = stream;
             mycam.muted = true;
             mycam.play();
@@ -95,12 +103,12 @@ function hideMediaSelectors() {
 function toggleChat(){
     if(chat.style.display=="inline"){
         chat.style.display="none";
-        document.getElementById("chatinput").style.display="none";
+        chat_input.style.display="none";
         document.getElementById("chatLabel").style.display="none";
         document.getElementById("chattoggler").innerHTML= "+";
     }else{
         chat.style.display="inline";
-        document.getElementById("chatinput").style.display="inherit";
+        chat_input.style.display="inherit";
         document.getElementById("chatLabel").style.display="inherit";
         document.getElementById("chattoggler").innerHTML= "-";
     }
@@ -160,6 +168,67 @@ function copy() {
     document.execCommand("copy");
 }
 
+var recorder;
+var recording=false;
+var record=[];
+function toggleRecording() {
+    var options={mimeType: 'video/webm;codecs=vp9'};
+    if(recording){
+        recorder.stop();
+    }else{
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            console.error(`${options.mimeType} is not Supported`);
+            errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+            options = {mimeType: 'video/webm;codecs=vp8'};
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+              console.error(`${options.mimeType} is not Supported`);
+              errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+              options = {mimeType: 'video/webm'};
+              if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                console.error(`${options.mimeType} is not Supported`);
+                errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+                options = {mimeType: ''};
+              }
+            }
+          }
+          recorder = new MediaRecorder(theirStream, options);
+          recorder.ondataavailable = function (event){
+            if(event.data && event.data.size > 0){
+                record.push(event.data);
+            }
+        }
+          recorder.start(1000);
+
+
+
+
+    }
+}
+
+
+
+function downloaddata(){
+    const url = window.URL.createObjectURL(new Blob(record, {type:"video/webm"}));
+    const downloader = document.createElement("a");
+    downloader.style.display="none";
+    downloader.href=url;
+    downloader.download = "RecordedDecentrizoomSession.webm"
+    downloader.click();
+    window.URL.revokeObjectURL(url);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 let xOffset = 0,
     yOffset = 0,
     init_x,
@@ -214,7 +283,7 @@ const dragElementEnd = e => {
         
     init_x = current_x;
     init_y = current_y;
-        console.log(current_x, current_y);
+    // host_feed.ad.log(current_x, current_y);
     } else {
         console.log('out bounds');
         mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
@@ -228,6 +297,10 @@ const dragElementEnd = e => {
     }
     active = false;
 }
-    document.addEventListener('mousedown', dragElementStart, false);
+
+
+
+  
+    host_feed.addEventListener('mousedown', dragElementStart, false);
     document.addEventListener('mouseup', dragElementEnd, false);
     document.addEventListener('mousemove', dragging, false);

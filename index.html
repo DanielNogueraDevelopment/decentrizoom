@@ -3,7 +3,7 @@
 
 <head>
     <title>Decentrizoom</title>
-    <link rel='stylehseet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <script src="https://kit.fontawesome.com/ec1745932e.js" crossorigin="anonymous"></script>
     <link rel='stylesheet' href='css/main.css'>
 </head>
 
@@ -15,20 +15,20 @@
 
     <!--  -->
     <div id='interface'>
-        <a class='btn keytool' id="hostgenerator" onclick="genhostkey()"><i popup-data="Create Host Key" class="fas fa-desktop"></i></a>
-        <a class='btn keytool' id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</a>
-        <a class='btn keytool' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</a>
+        <button class='btn keytool' id="hostgenerator" onclick="genhostkey()"><i popup-data="Generate Host Key" class="fas fa-key"></i></button>
+        <button class='btn keytool' id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</button>
+        <button class='btn keytool' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</button>
         <p id="hostkey keytool"></p>
         <textarea rows="1" class="keytool" id="keyoutput"></textarea>
-        <a class="btn mediaselector" onclick="loadMedia(true)">Use webcam</a>
-        <a class="btn mediaselector" onclick="loadMedia(false)">Use screenshare</a>
-        <a class="btn mediaselector" onclick="hideMediaSelectors()">Chat Only</a>
+        <button class="btn mediaselector" onclick="loadMedia(true)"><i popup-data="Use webcam" class="fas fa-camera"></i></button>
+        <button class="btn mediaselector" onclick="loadMedia(false)"><i popup-data="Share screen" class="fas fa-desktop"></i></button>
+        <button class="btn mediaselector" onclick="hideMediaSelectors()"><i popup-data="Chat Only" class="fas fa-comment-alt"></i></button>
 
         <!-- Feel free to move this wherever you want -->
         <div id="chatbox">
             <span id="chatLabel" style="display:inherit;text-align: center; font-family: 'Rubik', sans-serif;">Chat:</span><button id="chattoggler" onclick="toggleChat()" style="display:inherit; float:right;  font-family: 'Rubik', sans-serif;">-</button>
             <h5 style="display:inline;" id="chat"></h5>
-            <textarea style="display:inherit;" rows="1" id="chatinput"></textarea>
+            <textarea style="display:inherit;" wrap="soft" rows="1" id="chatinput"></textarea>
 
         </div>
 

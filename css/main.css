@@ -22,10 +22,6 @@ textarea {
     overflow-y: hidden;
 }
 
-canvas {
-    border: 1px solid #000000;
-}
-
 #chatbox {}
 
 #chat {
@@ -62,14 +58,13 @@ canvas {
     top: 0;
     right: 0;
     border-radius: 5px;
-    display: block;
+    display: inline-block;
     padding: 0.2em;
 }
 
 #host-feed {
     bottom: 0;
     right: 0;
-    border: 1px solid #444;
 }
 
 #controls {}
@@ -83,13 +78,18 @@ canvas {
 }
 
 .btn {
-    padding: 0.5em;
-    border-radius: 2em;
+    position: relative;
+    outline: none;
+    border: none;
+    padding: 0.3em;
+    border-radius: 50%;
     font-family: 'Rubik', sans-serif;
     background-color: #00b6ff;
-    display: block;
     margin: 0.2em;
     text-align: center;
+    width: 50px;
+    height: 50px;
+    font-size: 14pt;
 }
 
 .btn:hover {

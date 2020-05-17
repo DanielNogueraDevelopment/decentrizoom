@@ -82,10 +82,7 @@ function loadMedia(iswebcam) {
             connection.addStream(stream);
         });
     }
-    var selectors = document.querySelectorAll(".mediaselector")
-    selectors[0].style.display = "none";
-    selectors[1].style.display = "none";
-    selectors[2].style.display = "none";
+hideMediaSelectors()
 }
 
 function hideMediaSelectors() {
@@ -95,7 +92,19 @@ function hideMediaSelectors() {
     selectors[2].style.display = "none";
 }
 
-
+function toggleChat(){
+    if(chat.style.display=="inline"){
+        chat.style.display="none";
+        document.getElementById("chatinput").style.display="none";
+        document.getElementById("chatLabel").style.display="none";
+        document.getElementById("chattoggler").innerHTML= "+";
+    }else{
+        chat.style.display="inline";
+        document.getElementById("chatinput").style.display="inherit";
+        document.getElementById("chatLabel").style.display="inherit";
+        document.getElementById("chattoggler").innerHTML= "-";
+    }
+}
 
 
 
@@ -211,7 +220,7 @@ const dragElementEnd = e => {
         mycam.style.transform = `translate3d(${lastValidX}px, ${lastValidY}px, 0)`;
          
         current_x = lastValidX;
-        current_x = lastValidY;
+        current_y = lastValidY;
         init_x = current_x;
         init_y = current_y;
         xOffset = current_x;
@@ -219,6 +228,6 @@ const dragElementEnd = e => {
     }
     active = false;
 }
-    host_feed.addEventListener('mousedown', dragElementStart, false);
-    host_feed.addEventListener('mouseup', dragElementEnd, false);
+    document.addEventListener('mousedown', dragElementStart, false);
+    document.addEventListener('mouseup', dragElementEnd, false);
     document.addEventListener('mousemove', dragging, false);

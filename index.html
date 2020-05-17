@@ -20,20 +20,21 @@
         <p id="hostkey"></p>
         <textarea id="keyoutput"></textarea>
         <!-- <a class='btn' id="copier" onclick="copy()">Copy Key</a> -->
+        <a class="btn mediaselector" onclick="loadMedia(true)">Use webcam</a>
+        <a class="btn mediaselector" onclick="loadMedia(false)">Use screenshare</a>
     </div>
 
 
 
     <div id="host-feed">
-        <div id="temp">
-            <video id="me" draggable='true'></video>
-            <div id='controls'></div>
-        </div>
+        <video id="me" draggable='true'></video>
+        <div id='controls'></div>
     </div>
 
-    <script src="js/main.js"></script>
+
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="js/Lz-string.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

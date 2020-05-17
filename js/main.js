@@ -5,34 +5,45 @@ var chatconnection = new RTCPeerConnection({ iceServers: [myurl] })
 var mycam = document.getElementById("me");
 var theircam = document.getElementById("client-feed");
 var keyoutput = document.getElementById("keyoutput");
+const host_feed = document.querySelector('#host-feed');
 connection.onaddstream = function(event) {
     theircam.srcObject = event.stream;
     theircam.play();
 }
 var UserMedia;
 
-function loadMedia() {
-    var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
-        mycam.srcObject = stream;
-        mycam.muted = true;
-        mycam.play();
-        connection.addStream(stream);
-    }, function(err) {
-        console.log(err)
-    });
+
+function loadMedia(iswebcam) {
+    if (iswebcam) {
+        var UserMedia = navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+            mycam.srcObject = stream;
+            mycam.muted = true;
+            mycam.play();
+            connection.addStream(stream);
+        }, function(err) {
+            console.log(err)
+        });
+    } else {
+        var UserMedia = navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then(function(stream) {
+            mycam.srcObject = stream;
+            mycam.muted = true;
+            mycam.play();
+            connection.addStream(stream);
+        });
+    }
+    document.querySelector(".mediaselector").style.display = "none";
 }
-loadMedia();
+
+
 
 
 
 //generate the host key.
 function genhostkey() {
-    connection.createOffer().then(function(hostdescription) {
-        connection.setLocalDescription(hostdescription);
+    connection.createOffer().then(function(hostdesc) {
+        connection.setLocalDescription(hostdesc)
     })
     connection.onicecandidate = function(event) {
-
-
         var hostkey = LZString.compressToUTF16(connection.localDescription.sdp);
         keyoutput.value = hostkey;
 
@@ -57,7 +68,7 @@ function connecttohost(key) {
 
     connection.onicecandidate = function(event) {
         keyoutput.value = LZString.compressToUTF16(connection.localDescription.sdp);
-        document.getElementById("copier").style.display = "inherit";
+        document.getElementById("keyoutput").style.display = "inherit";
         copy();
     }
 }
@@ -73,5 +84,39 @@ function copy() {
     keyoutput.select();
     keyoutput.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    keyoutput.value = "";
 }
+
+let xOffset = 0,
+    yOffset = 0,
+    init_x,
+    init_y,
+    current_x,
+    current_y;
+
+const dragElementStart = e => {
+    e.preventDefault();
+    console.log(e.clientX, e.clientY);
+    current_x = e.clientX - xOffset;
+    current_y = e.clientY - yOffset;
+}
+
+const dragging = e => {
+    e.preventDefault();
+    // if (e.target === mycam) {
+    current_x = e.clientX - init_x;
+    current_y = e.clientY - init_y;
+
+    xOffset = current_x;
+    yOffset = current_y;
+    mycam.style.transform = `translate3d(${current_x}px, ${current_y}px, 0)`;
+    // }
+}
+
+const dragElementEnd = _ => {
+    init_x = current_x;
+    init_y = current_y;
+}
+
+host_feed.addEventListener('mousedown', dragElementStart);
+host_feed.addEventListener('mouseup', dragElementEnd);
+host_feed.addEventListener('mousemove', dragging);

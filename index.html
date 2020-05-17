@@ -13,9 +13,30 @@
         <video id="client-feed"></video>
     </div>
 
+    <div id="chatbox">
+        <span id="chatLabel" style="display:inherit;text-align: center; font-family: 'Rubik', sans-serif;">Chat:</span><button id="chattoggler" onclick="toggleChat()" style="display:inherit; float:right;  font-family: 'Rubik', sans-serif;">-</button>
+        <h5 style="display:inline;" id="chat"></h5>
+        <textarea style="display:inherit;" wrap="soft" rows="1" id="chatinput"></textarea>
+    </div>
+
+    <div id="host-feed">
+        <video id="me" draggable='true'></video>
+        <div id='controls'></div>
+    </div>
+
+
+    <div class='modal'>
+        <div class='modal-header'>
+            <h1>Decentrizoom</h1>
+        </div>
+        <div class='modal-body'>
+
+        </div>
+
     <!--  -->
     <div id='interface'>
         <button class='btn keytool' id="hostgenerator" onclick="genhostkey()"><i popup-data="Generate Host Key" class="fas fa-key"></i></button>
+        <div class=
         <button class='btn keytool' id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</button>
         <button class='btn keytool' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</button>
         <p id="hostkey keytool"></p>
@@ -23,21 +44,9 @@
         <button class="btn mediaselector" onclick="loadMedia(true)"><i popup-data="Use webcam" class="fas fa-camera"></i></button>
         <button class="btn mediaselector" onclick="loadMedia(false)"><i popup-data="Share screen" class="fas fa-desktop"></i></button>
         <button class="btn mediaselector" onclick="hideMediaSelectors()"><i popup-data="Chat Only" class="fas fa-comment-alt"></i></button>
-
-        <!-- Feel free to move this wherever you want -->
-        <div id="chatbox">
-            <span id="chatLabel" style="display:inherit;text-align: center; font-family: 'Rubik', sans-serif;">Chat:</span><button id="chattoggler" onclick="toggleChat()" style="display:inherit; float:right;  font-family: 'Rubik', sans-serif;">-</button>
-            <h5 style="display:inline;" id="chat"></h5>
-            <textarea style="display:inherit;" wrap="soft" rows="1" id="chatinput"></textarea>
-
-        </div>
-
     </div>
 
-    <div id="host-feed">
-        <video id="me" draggable='true'></video>
-        <div id='controls'></div>
-    </div>
+
 
 
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>

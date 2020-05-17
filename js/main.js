@@ -207,7 +207,7 @@ function toggleRecording() {
 
 
 
-function downloaddata(){
+function downloadData(){
     const url = window.URL.createObjectURL(new Blob(record, {type:"video/webm"}));
     const downloader = document.createElement("a");
     downloader.style.display="none";

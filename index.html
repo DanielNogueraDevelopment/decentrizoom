@@ -14,14 +14,26 @@
 
     <!--  -->
     <div id='interface'>
-        <a class='btn' id="hostgenerator" onclick="genhostkey()">Create Host Key</a>
-        <a class='btn' id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</a>
-        <a class='btn' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</a>
-        <p id="hostkey"></p>
-        <textarea id="keyoutput"></textarea>
+        <a class='btn keytool' id="hostgenerator" onclick="genhostkey()">Create Host Key</a>
+        <a class='btn keytool' id="friendloader" onclick="adduser(document.getElementById('keyoutput').value, true)">Load Friend Key</a>
+        <a class='btn keytool' id="loadhostkey" onclick="connecttohost(document.getElementById('keyoutput').value)">Load host key</a>
+        <p id="hostkey keytool"></p>
+        <textarea rows="1" class="keytool" id="keyoutput"></textarea>
         <!-- <a class='btn' id="copier" onclick="copy()">Copy Key</a> -->
         <a class="btn mediaselector" onclick="loadMedia(true)">Use webcam</a>
         <a class="btn mediaselector" onclick="loadMedia(false)">Use screenshare</a>
+        <a class="btn mediaselector" onclick="hideMediaSelectors()">Chat Only</a>
+
+
+
+        <!-- Feel free to move this wherever you want -->
+        <div id="chatbox">
+            <p style="text-align: center; font-family: 'Rubik', sans-serif;">Chat:</p>
+            <h5 style="display:inline;" id="chat"></h5>
+            <textarea rows="1" id="chatinput"></textarea>
+
+        </div>
+
     </div>
 
 

@@ -23,6 +23,11 @@ textarea {
 
 #chatbox {}
 
+#chat {
+    overflow-y: auto;
+    max-height: 40vh;
+}
+
 #parent {
     width: 100%;
     height: 100%;
